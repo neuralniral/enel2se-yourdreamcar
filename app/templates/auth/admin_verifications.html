@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Pending verifications{% endblock %}
+{% block content %}
+<h1>Pending driver verifications</h1>
+{% if not pending %}<p class="muted">Nothing waiting for review.</p>{% else %}
+<table><tr><th>Customer</th><th>Email</th><th>Document</th><th></th></tr>
+{% for c in pending %}
+<tr><td>{{ c.fullName }}</td><td>{{ c.email }}</td>
+<td><a href="{{ url_for('auth.admin_document', customer_id=c.customerID) }}" target="_blank">View</a></td>
+<td>
+  <form class="inline" method="post" action="{{ url_for('auth.admin_decide', customer_id=c.customerID, decision='approve') }}"><button class="ok">Approve</button></form>
+  <form class="inline" method="post" action="{{ url_for('auth.admin_decide', customer_id=c.customerID, decision='reject') }}"><button class="danger">Reject</button></form>
+</td></tr>
+{% endfor %}</table>{% endif %}
+{% endblock %}

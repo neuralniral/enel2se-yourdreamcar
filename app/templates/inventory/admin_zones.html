@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Delivery zones{% endblock %}
+{% block content %}
+<h1>Delivery zones</h1>
+<table><tr><th>Area</th><th>Fee</th><th></th></tr>
+{% for z in zones %}
+<tr><td>{{ z.areaName }}</td>
+<td><form class="inline" method="post" action="{{ url_for('inventory.admin_zone_update', zone_id=z.zoneID) }}">
+  <input type="number" step="0.01" min="0" name="deliveryFee" value="{{ z.deliveryFee }}" style="width:110px"> <button>Update</button></form></td>
+<td><form class="inline" method="post" action="{{ url_for('inventory.admin_zone_delete', zone_id=z.zoneID) }}"><button class="danger">Remove</button></form></td></tr>
+{% endfor %}</table>
+<div class="card" style="margin-top:1rem"><h2>Add a zone</h2>
+<form method="post"><label>Area name</label><input name="areaName" required>
+<label>Delivery fee (R)</label><input type="number" step="0.01" min="0" name="deliveryFee" required>
+<p><button>Add zone</button></p></form></div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{# Shared by the "add" and "edit" vehicle forms. "v" is the vehicle being edited, or None when adding. #}
+<label>Make</label><input name="make" value="{{ v.make if v else '' }}" required>
+<label>Model</label><input name="model" value="{{ v.model if v else '' }}" required>
+<label>Year</label><input type="number" name="year" value="{{ v.year if v and v.year else '' }}">
+<label>Seats</label><input type="number" name="seats" value="{{ v.seats if v and v.seats else '' }}">
+<label>Transmission</label><input name="transmission" value="{{ v.transmission if v and v.transmission else '' }}">
+<label>Fuel type</label><input name="fuelType" value="{{ v.fuelType if v and v.fuelType else '' }}">
+<label>Daily rate (R)</label><input type="number" step="0.01" min="0" name="dailyRate" value="{{ v.dailyRate if v else '' }}" required>
+<label>Status</label>
+<select name="status">
+  <option value="Available" {{ 'selected' if v and v.status == 'Available' }}>Available</option>
+  <option value="Maintenance" {{ 'selected' if v and v.status == 'Maintenance' }}>Under maintenance</option>
+</select>
+<p class="muted">"Booked" is shown automatically while a rental is in progress. You don't set it here.</p>
+<label>Photo (PNG, JPG or WEBP{{ ', leave empty to keep the current one' if v }})</label>
+<input type="file" name="image" accept=".png,.jpg,.jpeg,.webp">

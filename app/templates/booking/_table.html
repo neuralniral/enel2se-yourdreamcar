@@ -1,0 +1,7 @@
+<table><tr><th>#</th>{% if user.role == 'admin' %}<th>Customer</th>{% endif %}<th>Vehicle</th><th>Dates</th><th>Total</th><th>Status</th><th></th></tr>
+{% for b in bookings %}
+<tr><td>{{ b.bookingID }}</td>{% if user.role == 'admin' %}<td>{{ b.customerName }}</td>{% endif %}
+<td>{{ b.make }} {{ b.model }}</td><td>{{ b.startDate }} &rarr; {{ b.endDate }}</td>
+<td>{{ b.totalAmount|money }}</td><td><span class="tag {{ b.status }}">{{ b.status }}</span></td>
+<td><a href="{{ url_for('booking.booking_detail', booking_id=b.bookingID) }}">Invoice</a></td></tr>
+{% else %}<tr><td colspan="7" class="muted">No bookings.</td></tr>{% endfor %}</table>

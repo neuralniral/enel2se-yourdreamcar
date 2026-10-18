@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Vehicles{% endblock %}
+{% block content %}
+<h1>Our vehicles</h1>
+<div class="grid">
+{# v.displayStatus is Available, Booked or Maintenance (worked out in inventory/service.py) #}
+{% for v in vehicles %}
+  <div class="card">
+    <img class="vehicle-photo" src="{{ v.imagePath|image_url }}" alt="{{ v.make }} {{ v.model }}">
+    <h3>{{ v.make }} {{ v.model }}</h3>
+    <p>{{ v.dailyRate|money }} / day</p>
+    <p><span class="tag {{ v.displayStatus }}">{{ v.displayStatus|status_label }}</span>
+       {% if v.displayStatus == 'Booked' %}<span class="muted">until {{ v.bookedUntil }}</span>{% endif %}</p>
+    <a class="btn" href="{{ url_for('inventory.vehicle_detail', vehicle_id=v.vehicleID) }}">View details</a>
+  </div>
+{% else %}<p class="muted">No vehicles yet.</p>{% endfor %}
+</div>
+{% endblock %}

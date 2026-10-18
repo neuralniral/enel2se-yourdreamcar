@@ -1,0 +1,26 @@
+:root { --brand:#1f3864; --accent:#2e75b6; --bg:#f6f7f9; --ok:#1e7b34; --err:#b3261e; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:#222; }
+.nav { background:var(--brand); color:#fff; display:flex; gap:1.5rem; align-items:center; padding:.75rem 1.5rem; flex-wrap:wrap; }
+.nav a { color:#fff; text-decoration:none; } .nav a:hover { text-decoration:underline; }
+.brand { font-weight:700; font-size:1.2rem; } .nav nav { display:flex; gap:1rem; flex-wrap:wrap; }
+main { max-width:960px; margin:1.5rem auto; padding:0 1rem; }
+.flash { padding:.6rem .9rem; border-radius:6px; margin-bottom:.8rem; }
+.flash.success { background:#e3f4e7; color:var(--ok); } .flash.error { background:#fbe7e6; color:var(--err); }
+.card { background:#fff; border-radius:8px; padding:1rem 1.2rem; margin-bottom:1rem; box-shadow:0 1px 3px #0002; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; }
+table { width:100%; border-collapse:collapse; background:#fff; } th,td { padding:.5rem .6rem; border-bottom:1px solid #e3e3e3; text-align:left; }
+th { background:var(--brand); color:#fff; }
+label { display:block; margin:.6rem 0 .2rem; font-weight:600; }
+input, select { padding:.45rem; width:100%; max-width:380px; } input[type=checkbox] { width:auto; }
+.btn, button { background:var(--accent); color:#fff; border:0; padding:.5rem 1rem; border-radius:6px; cursor:pointer; text-decoration:none; display:inline-block; }
+button.danger { background:var(--err); } button.ok { background:var(--ok); }
+.tag { padding:.1rem .5rem; border-radius:10px; font-size:.8rem; background:#ddd; }
+.tag.Available,.tag.Approved,.tag.Confirmed { background:#e3f4e7; } .tag.Maintenance,.tag.Rejected,.tag.Cancelled { background:#fbe7e6; }
+.inline { display:inline; } .muted { color:#666; }
+
+/* Vehicle images and the Booked status */
+.card img.vehicle-photo { width:100%; height:auto; border-radius:6px; display:block; margin-bottom:.6rem; background:#e9eef3; }
+img.thumb { width:80px; height:auto; border-radius:4px; vertical-align:middle; }
+.tag.Booked { background:#fff1d6; color:#8a5a00; }
+.detail-layout { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.2rem; align-items:start; }

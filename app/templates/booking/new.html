@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Book {{ vehicle.make }} {{ vehicle.model }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Book: {{ vehicle.make }} {{ vehicle.model }}</h1>
+  <img class="vehicle-photo" style="max-width:320px" src="{{ vehicle.imagePath|image_url }}" alt="">
+  <p>{{ vehicle.dailyRate|money }} / day</p>
+  {% if vehicle.displayStatus == 'Booked' %}
+    <p><span class="tag Booked">Booked</span> <span class="muted">out on rental until {{ vehicle.bookedUntil }}. You can still book other dates.</span></p>
+  {% endif %}
+  <form method="post">
+    <input type="hidden" name="vehicle_id" value="{{ vehicle.vehicleID }}">
+    <label>Start date</label><input type="date" name="start_date" value="{{ form.get('start_date', '') }}" required>
+    <label>End date (day you return it; not billed)</label><input type="date" name="end_date" value="{{ form.get('end_date', '') }}" required>
+    <label><input type="checkbox" name="delivery" {{ 'checked' if form.get('delivery') }}> Deliver to my address</label>
+    <label>Delivery address</label><input name="address" value="{{ form.get('address', '') }}" placeholder="e.g. 12 Beach Road, Umhlanga">
+    <p class="muted">We deliver to: {% for z in zones %}{{ z.areaName }} ({{ z.deliveryFee|money }}){{ ', ' if not loop.last }}{% endfor %}</p>
+    <p><button type="submit" name="action" value="preview">{{ 'Recalculate' if preview else 'Check and get bill' }}</button></p>
+  </form>
+</div>
+
+{% if alternatives %}
+<div class="card"><h3>Available for those dates instead</h3>
+<ul>{% for a in alternatives %}<li><a href="{{ url_for('booking.new_booking', vehicle_id=a.vehicleID) }}">{{ a.make }} {{ a.model }}</a> - {{ a.dailyRate|money }}/day</li>{% endfor %}</ul></div>
+{% endif %}
+
+{% if preview %}
+<div class="card"><h2>Your itemised bill</h2>
+  {% if preview.delivery_note %}<div class="flash error">{{ preview.delivery_note }}</div>{% endif %}
+  <table>
+    <tr><td>{{ vehicle.dailyRate|money }} x {{ preview.bill.duration }} day(s)</td><td>{{ preview.bill.base_amount|money }}</td></tr>
+    <tr><td>Delivery fee</td><td>{{ preview.bill.delivery_fee|money }}</td></tr>
+    <tr><td>Tax</td><td>{{ preview.bill.tax|money }}</td></tr>
+    <tr><th>Total</th><th>{{ preview.bill.total|money }}</th></tr>
+  </table>
+  <form method="post" style="margin-top:1rem">
+    <input type="hidden" name="vehicle_id" value="{{ vehicle.vehicleID }}">
+    <input type="hidden" name="start_date" value="{{ form.get('start_date') }}">
+    <input type="hidden" name="end_date" value="{{ form.get('end_date') }}">
+    {% if form.get('delivery') %}<input type="hidden" name="delivery" value="on">{% endif %}
+    <input type="hidden" name="address" value="{{ form.get('address', '') }}">
+    <button class="ok" type="submit" name="action" value="confirm">Confirm booking</button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

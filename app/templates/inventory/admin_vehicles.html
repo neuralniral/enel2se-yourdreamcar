@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Manage vehicles{% endblock %}
+{% block content %}
+<h1>Manage vehicles</h1>
+<table><tr><th>Photo</th><th>Vehicle</th><th>Rate</th><th>Status</th><th></th></tr>
+{% for v in vehicles %}
+<tr>
+  <td><img class="thumb" src="{{ v.imagePath|image_url }}" alt=""></td>
+  <td>{{ v.make }} {{ v.model }}</td><td>{{ v.dailyRate|money }}</td>
+  <td><span class="tag {{ v.displayStatus }}">{{ v.displayStatus|status_label }}</span>
+      {% if v.displayStatus == 'Booked' %}<span class="muted">until {{ v.bookedUntil }}</span>{% endif %}</td>
+  <td><a class="btn" href="{{ url_for('inventory.admin_vehicle_edit', vehicle_id=v.vehicleID) }}">Edit</a>
+  <form class="inline" method="post" action="{{ url_for('inventory.admin_vehicle_delete', vehicle_id=v.vehicleID) }}" onsubmit="return confirm('Remove this vehicle?')"><button class="danger">Remove</button></form></td>
+</tr>
+{% endfor %}</table>
+<div class="card" style="margin-top:1rem"><h2>Add a vehicle</h2>
+{# enctype="multipart/form-data" is required for a form that uploads a file #}
+<form method="post" enctype="multipart/form-data">{% with v=None %}{% include 'inventory/_vehicle_fields.html' %}{% endwith %}<p><button>Add vehicle</button></p></form></div>
+{% endblock %}

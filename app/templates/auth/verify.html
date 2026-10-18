@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Driver verification{% endblock %}
+{% block content %}
+<div class="card"><h1>Driver verification</h1>
+<p>Status: <span class="tag {{ user.verificationStatus }}">{{ user.verificationStatus }}</span></p>
+{% if user.verificationStatus == 'Approved' %}
+  <p>You're verified and can book vehicles.</p>
+{% else %}
+  {% if user.licenceDocumentPath %}<p class="muted">A document is on file. Uploading again replaces it and resets the status to Pending.</p>{% endif %}
+  <form method="post" enctype="multipart/form-data">
+    <label>Driver's licence (PDF, PNG or JPG, max 5 MB)</label>
+    <input type="file" name="licence" accept=".pdf,.png,.jpg,.jpeg" required>
+    <p><button type="submit">Upload</button></p>
+  </form>
+{% endif %}</div>
+{% endblock %}

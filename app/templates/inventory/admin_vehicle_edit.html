@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Edit vehicle{% endblock %}
+{% block content %}
+<div class="card"><h1>Edit {{ vehicle.make }} {{ vehicle.model }}</h1>
+<img class="vehicle-photo" style="max-width:320px" src="{{ vehicle.imagePath|image_url }}" alt="Current photo">
+<form method="post" enctype="multipart/form-data">{% with v=vehicle %}{% include 'inventory/_vehicle_fields.html' %}{% endwith %}
+<p><button>Save</button> <a href="{{ url_for('inventory.admin_vehicles') }}">Cancel</a></p></form></div>
+{% endblock %}

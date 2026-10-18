@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ vehicle.make }} {{ vehicle.model }}{% endblock %}
+{% block content %}
+<div class="detail-layout">
+  <div class="card">
+    <img class="vehicle-photo" src="{{ vehicle.imagePath|image_url }}" alt="{{ vehicle.make }} {{ vehicle.model }}">
+  </div>
+  <div class="card">
+    <h1>{{ vehicle.make }} {{ vehicle.model }}</h1>
+    <p><span class="tag {{ vehicle.displayStatus }}">{{ vehicle.displayStatus|status_label }}</span>
+       {% if vehicle.displayStatus == 'Booked' %}<span class="muted">Out on rental until {{ vehicle.bookedUntil }}</span>{% endif %}</p>
+    <table>
+      <tr><th>Daily rate</th><td>{{ vehicle.dailyRate|money }}</td></tr>
+      <tr><th>Year</th><td>{{ vehicle.year or '-' }}</td></tr>
+      <tr><th>Seats</th><td>{{ vehicle.seats or '-' }}</td></tr>
+      <tr><th>Transmission</th><td>{{ vehicle.transmission or '-' }}</td></tr>
+      <tr><th>Fuel</th><td>{{ vehicle.fuelType or '-' }}</td></tr>
+    </table>
+
+    {% if upcoming %}
+      <h3>Already booked on</h3>
+      <ul>{% for r in upcoming %}<li>{{ r.startDate }} &rarr; {{ r.endDate }} (returned that day)</li>{% endfor %}</ul>
+      <p class="muted">You can still book it for any other dates.</p>
+    {% endif %}
+
+    <p>
+    {% if vehicle.displayStatus == 'Maintenance' %}
+      <span class="muted">This vehicle can't be booked right now.</span>
+    {% else %}
+      <a class="btn" href="{{ url_for('booking.new_booking', vehicle_id=vehicle.vehicleID) }}">Book this vehicle</a>
+    {% endif %}
+    </p>
+  </div>
+</div>
+{% endblock %}

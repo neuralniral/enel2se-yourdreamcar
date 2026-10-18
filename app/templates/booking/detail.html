@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Booking #{{ b.bookingID }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Booking #{{ b.bookingID }} <span class="tag {{ b.status }}">{{ b.status }}</span></h1>
+  <p><strong>{{ b.make }} {{ b.model }}</strong> for {{ b.customerName }}</p>
+  <p>{{ b.startDate }} to {{ b.endDate }} (return day) &middot; {{ ('Delivery to ' ~ b.areaName) if b.deliveryRequested else 'Self-collection' }}</p>
+  <h2>Invoice #{{ b.invoiceID }}</h2>
+  <table>
+    <tr><td>Base amount</td><td>{{ b.baseAmount|money }}</td></tr>
+    <tr><td>Delivery fee</td><td>{{ b.deliveryFee|money }}</td></tr>
+    <tr><td>Tax</td><td>{{ b.tax|money }}</td></tr>
+    <tr><th>Total</th><th>{{ b.totalAmount|money }}</th></tr>
+  </table>
+  <p><a href="{{ url_for('booking.history' if user.role == 'customer' else 'booking.admin_bookings') }}">&larr; Back</a></p>
+</div>
+{% endblock %}

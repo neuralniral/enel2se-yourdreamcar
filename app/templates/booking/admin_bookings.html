@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}All bookings{% endblock %}
+{% block content %}
+<h1>All bookings</h1>
+<form method="get" class="card">
+  <label>Status</label>
+  <select name="status"><option value="">Any</option>
+    <option value="Confirmed" {{ 'selected' if status == 'Confirmed' }}>Confirmed</option>
+    <option value="Cancelled" {{ 'selected' if status == 'Cancelled' }}>Cancelled</option></select>
+  <label>From</label><input type="date" name="from" value="{{ date_from }}">
+  <label>To</label><input type="date" name="to" value="{{ date_to }}">
+  <p><button>Filter</button></p>
+</form>
+{% include 'booking/_table.html' %}
+{% endblock %}
